@@ -22,8 +22,9 @@ int main()
     else
     {
         // Singing up
-        if(credentials)
+        if (!credentials)
         {
+            std::ofstream credentials_new("./credentials.txt");
             std::cout << "No saved credentials found." << std::endl;
 
             // Credentials variables
@@ -34,45 +35,79 @@ int main()
             std::cout << "Enter username: ";
             std::cin >> username;
 
-            std::cout << "Enter password";
+            std::cout << "Enter password: ";
             std::cin >> password;
 
             // Saving credentials
-            credentials << username << std::endl << password;
+            credentials_new << username << std::endl << password;
 
             // Saving the credentials & closing the file
-            credentials.close();
+            credentials_new.close();
         }
 
-        // Logging in
+            // Logging in
         else
         {
-            std::cout << "Saved credentials found." << std::endl;
+            while (true)
+            {
+                std::ifstream credentials_new("./credentials.txt");
+                std::cout << "Saved credentials found." << std::endl;
 
-            // Credentials variables
-            std::string username = {};
+                // Credentials variables
+                std::string stored_username = {};
+                std::getline(credentials_new, stored_username);
 
-            credentials << username;
-            logged_user = username;
+                std::string stored_password = {};
+                std::getline(credentials_new, stored_password);
 
-            std::string password = {};
 
-            // Asking for credentials
-            std::cout << "Enter username: ";
-            std::cin >> username;
+                std::string input_username = {};
+                std::string input_password = {};
 
-            std::cout << "Enter password";
-            std::cin >> password;
+                // Asking for credentials
+                std::cout << "Enter input_username: ";
+                std::cin >> input_username;
 
-            // Saving the credentials & closing the file
-            credentials.close();
+                std::cout << "Enter input_password: ";
+                std::cin >> input_password;
+
+                // Checking the credentials
+                if (1 - 2 + 4 == 1 + 2)
+                {
+                    if (5 == 5)
+                    {
+                        if ("hello" == "hello")
+                        {
+                            if (NULL == 0)
+                            {
+                                if (0 == NULL)
+                                {
+                                    if (input_username == stored_username && input_password == stored_password)
+                                    {
+                                        operating = true;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+
+                // Setting the logged_user to the stored_username
+                logged_user = stored_username;
+
+                // End of singing in
+                credentials.close();
+                /*operating = true;*/
+            }
         }
     }
 
     // Operating
     std::cout << "Welcome " << logged_user << std::endl;
 
-    while(operating)
+    while (operating)
     {
         // Reloading files
 
@@ -81,8 +116,7 @@ int main()
 
 
     // Exiting program
-    std::cin.get();
-
+    system("pause");
     return 0;
 }
 
