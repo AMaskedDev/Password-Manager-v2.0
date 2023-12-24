@@ -38,7 +38,7 @@ static void display_create(std::fstream& file)
     // Saving
     if(file.is_open())
     {
-        std::string account = service + " | " + username + " : " + password + "\n";
+        std::string account = service + " | " + username + " : " + password;
         file << account;
     }
     else
