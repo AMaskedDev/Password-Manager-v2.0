@@ -13,6 +13,7 @@ int main()
     static std::string logged_user = {};
 
     std::fstream credentials("./credentials.txt");
+    std::fstream passwords("./passwords.txt");
 
     // Logging in
     if (automatic_login)
@@ -48,70 +49,65 @@ int main()
             // Logging in
         else
         {
+            std::cout << "Saved credentials found." << std::endl << std::endl;
+            std::ifstream credentials_new("./credentials.txt");
+
+            std::string stored_username = {};
+            std::getline(credentials_new, stored_username);
+
+            std::string stored_password = {};
+            std::getline(credentials_new, stored_password);
+
             while (true)
             {
-                std::ifstream credentials_new("./credentials.txt");
-                std::cout << "Saved credentials found." << std::endl;
-
                 // Credentials variables
-                std::string stored_username = {};
-                std::getline(credentials_new, stored_username);
-
-                std::string stored_password = {};
-                std::getline(credentials_new, stored_password);
-
 
                 std::string input_username = {};
                 std::string input_password = {};
 
                 // Asking for credentials
-                std::cout << "Enter input_username: ";
+                std::cout << "Enter username: ";
                 std::cin >> input_username;
 
-                std::cout << "Enter input_password: ";
+                std::cout << "Enter password: ";
                 std::cin >> input_password;
 
                 // Checking the credentials
-                if (1 - 2 + 4 == 1 + 2)
+                if (input_username == stored_username && input_password == stored_password)
                 {
-                    if (5 == 5)
-                    {
-                        if ("hello" == "hello")
-                        {
-                            if (NULL == 0)
-                            {
-                                if (0 == NULL)
-                                {
-                                    if (input_username == stored_username && input_password == stored_password)
-                                    {
-                                        operating = true;
-                                    }
-                                }
-                            }
+                    // Setting the logged_user to the stored_username
+                    logged_user = stored_username;
 
-                        }
-                    }
+                    // Operating next
+                    operating = true;
+                    break;
+
+                } else
+                {
+                    std::cout << "\nInvalid credentials, try again!\n" << std::endl;
                 }
 
 
-                // Setting the logged_user to the stored_username
-                logged_user = stored_username;
-
                 // End of singing in
                 credentials.close();
-                /*operating = true;*/
+                operating = true;
             }
         }
+
     }
 
     // Operating
+    system("cls");
     std::cout << "Welcome " << logged_user << std::endl;
 
     while (operating)
     {
         // Reloading files
 
+
         // Getting user input
+
+
     }
 
 
@@ -119,4 +115,3 @@ int main()
     system("pause");
     return 0;
 }
-
