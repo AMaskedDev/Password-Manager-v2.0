@@ -5,25 +5,66 @@ static void display_help()
 {
     std::cout << "\nCommand List\n" <<
               "\n1) 'help' - shows this menu.\n" <<
-              "2) 'exit' - exit the program, closing with the x button at the top works aswell.\n" <<
+              "2) 'exit' - exit the program, closing with the x button at the top works as well.\n" <<
               "3) ...\n" << std::endl;
 }
 
+static void display_passwords(int lines, std::string array[])
+{
+     std::cout << "\n";
+     for (int i = 0; i < lines; ++i)
+     {
+         std::cout << array[i] << std::endl << std::endl;
+     }
+}
+
+static void display_create(std::fstream& file)
+{
+    // Saving variables
+    std::string service = {};
+    std::string username = {};
+    std::string password = {};
+
+    // Getting the information
+    std::cout << "Enter service: ";
+    std::cin >> service;
+
+    std::cout << "Enter username: ";
+    std::cin >> username;
+
+    std::cout << "Enter password: ";
+    std::cin >> password;
+
+    // Saving
+    if(file.is_open())
+    {
+        std::string account = service + " | " + username + " : " + password + "\n";
+        file << account;
+    }
+    else
+    {
+        std::cerr << "Error writing to file!" << std::endl;
+    }
+}
 
 int main()
 {
+    std::fstream credentials("./credentials.txt");
+    std::fstream passwords("./passwords.txt");
+
     std::string stored_username = {};
-    std::getline(std::ifstream("./credentials.txt"), stored_username);
+    std::getline(credentials, stored_username);
 
     std::string stored_password = {};
-    std::getline(std::ifstream("./credentials.txt"), stored_password);
+    std::getline(credentials, stored_password);
+
+    /*std::cout << stored_username << std::endl;
+    std::cout << stored_password << std::endl;*/
+
 
     static bool automatic_login = false;
     static bool operating = false;
     static int login_tries = 3;
-
-    std::fstream credentials("./credentials.txt");
-    std::fstream passwords("./passwords.txt");
 
     if (!passwords) std::ofstream lcl_passwords("./passwords.txt");
 
@@ -133,11 +174,15 @@ int main()
 
         else if (command == "display")
         {
-            std::cout << "\n";
-            for (int i = 0; i < file_lines; ++i)
-            {
-                std::cout << saved_passwords[i] << std::endl << std::endl;
-            }
+           display_passwords(file_lines, saved_passwords);
+        }
+        else if(command == "create")
+        {
+            display_create(passwords);
+        }
+        else
+        {
+            std::cout << "Invalid command! Use help." << std::endl;
         }
     }
 
